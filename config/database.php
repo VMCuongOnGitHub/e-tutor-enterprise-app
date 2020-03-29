@@ -8,7 +8,13 @@ $username = $url["user"]??null;
 $password = $url["pass"]??null;
 $database = substr($url["path"], 1)??null;
 
+$default_connection = "";
 
+if (isset($url)){
+    $default_connection = "pgsql_production";
+}else{
+    $default_connection = "pgsql";
+}
 
 return [
 
@@ -23,7 +29,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql_production'),
+    'default' => env('DB_CONNECTION', $default_connection),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +77,7 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
+        'pgsql_production' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
             'host' => $host,
@@ -86,7 +92,7 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'pgsql_production' => [
+        'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
